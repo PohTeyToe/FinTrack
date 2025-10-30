@@ -120,6 +120,8 @@ def analyze_spending_patterns(
     }
 
 
+
+# --- Trend Detection Pipeline ---
 def detect_trends(user_id: int) -> dict[str, Any]:
     """Detect spending trends using rolling averages and linear regression.
 
