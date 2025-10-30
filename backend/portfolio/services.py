@@ -110,6 +110,8 @@ def calculate_portfolio_returns(
     }
 
 
+
+# --- Sector Allocation Pipeline ---
 def portfolio_allocation_analysis(portfolio_id: int) -> dict[str, Any]:
     """Analyse sector allocation and diversification metrics.
 
