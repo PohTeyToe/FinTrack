@@ -8,6 +8,8 @@ import os
 import time
 from typing import Any
 
+
+# --- In-Memory Cache with TTL ---
 _cache: dict[str, tuple[float, Any]] = {}
 _CACHE_TTL = int(os.getenv("MARKET_DATA_CACHE_TTL", "300"))
 
