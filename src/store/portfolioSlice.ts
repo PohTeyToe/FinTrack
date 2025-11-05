@@ -1,3 +1,4 @@
+// Portfolio state management with Redux Toolkit
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Holding, ChartDataPoint } from '../types';
 
