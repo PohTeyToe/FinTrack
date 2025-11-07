@@ -1,3 +1,4 @@
+// Watchlist state management
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WatchlistItem } from '../types';
 
