@@ -1,3 +1,4 @@
+// Redux store with localStorage persistence
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import portfolioReducer from './portfolioSlice';
 import watchlistReducer from './watchlistSlice';
