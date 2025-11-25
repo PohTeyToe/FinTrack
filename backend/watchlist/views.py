@@ -1,3 +1,4 @@
+# Watchlist API views
 """API views for watchlist management."""
 from rest_framework import viewsets
 

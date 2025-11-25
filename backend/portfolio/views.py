@@ -1,3 +1,4 @@
+# Portfolio API views -- DRF viewsets with typed responses
 """API views for portfolio management."""
 from rest_framework import status, viewsets
 from rest_framework.decorators import action

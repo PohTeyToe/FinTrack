@@ -1,3 +1,4 @@
+# Analytics API views -- spending breakdown and trend endpoints
 """API views for spending analytics."""
 from datetime import date, timedelta
 
