@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-dark-900 text-gray-100;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-500 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-400;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-accent/30;
+  }
+}
+
+/* Component styles */
+@layer components {
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent via-accent-light to-gain bg-clip-text text-transparent;
+  }
+
+  /* Glow effects */
+  .glow-accent {
+    box-shadow: 0 0 20px theme('colors.accent.DEFAULT / 30%');
+  }
+
+  .glow-gain {
+    box-shadow: 0 0 20px theme('colors.gain.DEFAULT / 30%');
+  }
+
+  .glow-loss {
+    box-shadow: 0 0 20px theme('colors.loss.DEFAULT / 30%');
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+
+  .card-hover:hover {
+    @apply -translate-y-1 shadow-xl shadow-black/20;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-dark-800/50 backdrop-blur-xl border border-dark-600;
+  }
+
+  /* Dot pattern background */
+  .bg-dots {
+    background-image: radial-gradient(circle, theme('colors.dark.600') 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Grid pattern background */
+  .bg-grid {
+    background-image: 
+      linear-gradient(to right, theme('colors.dark.700') 1px, transparent 1px),
+      linear-gradient(to bottom, theme('colors.dark.700') 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+/* Utility styles */
+@layer utilities {
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Smooth scroll */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  /* Text balance */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Animation delay utilities */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}
+
+/* Recharts customization */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: theme('colors.dark.600');
+}
+
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+/* Remove default input styles */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Date input styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  filter: invert(0.7);
+}
+
+/* Animation for page transitions */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: pageEnter 0.4s ease-out;
+}
+
+/* Pulse animation for live indicators */
+@keyframes livePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.live-pulse {
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+/* Number transition */
+.number-transition {
+  transition: all 0.3s ease-out;
+}
+
+/* Focus visible styles */
+:focus-visible {
+  @apply outline-none ring-2 ring-accent/50 ring-offset-2 ring-offset-dark-900;
+}
+
+/* Mobile touch improvements */
+@media (hover: none) {
+  .hover\:scale-105:active {
+    transform: scale(0.98);
+  }
+}
+
