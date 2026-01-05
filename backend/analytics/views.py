@@ -61,7 +61,7 @@ class SpendingAnalyticsViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=["get"], url_path="report")
     def spending_report(self, request: Request) -> Response:
-        """Generate a comprehensive spending report.
+        """Generate a spending report.
 
         Query params: start (YYYY-MM-DD), end (YYYY-MM-DD).
         Defaults to the current month.

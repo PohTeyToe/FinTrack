@@ -52,6 +52,7 @@ class Holding(models.Model):
     shares = models.DecimalField(max_digits=12, decimal_places=4)
     avg_cost = models.DecimalField(max_digits=12, decimal_places=4)
     current_price = models.DecimalField(max_digits=12, decimal_places=4, default=0)
+    # TODO: support multiple currencies
     sector = models.CharField(
         max_length=20,
         choices=SECTOR_CHOICES,

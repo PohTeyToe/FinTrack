@@ -193,7 +193,7 @@ def detect_trends(user_id: int) -> dict[str, Any]:
 def generate_spending_report(
     user_id: int, start_date: date, end_date: date
 ) -> dict[str, Any]:
-    """Generate a comprehensive spending report for a date range.
+    """Generate a spending report for a date range.
 
     Full pandas pipeline producing summary statistics, category
     breakdowns, daily aggregates, and comparison with prior period.

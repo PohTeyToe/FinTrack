@@ -1,18 +1,8 @@
-# 📈 FinTrack - Personal Finance Dashboard
+# FinTrack - Personal Finance Dashboard
 
-<div align="center">
-  <img src="https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react" alt="React" />
-  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Redux_Toolkit-2.x-764ABC?style=for-the-badge&logo=redux" alt="Redux Toolkit" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=for-the-badge&logo=tailwindcss" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/Vite-6.x-646CFF?style=for-the-badge&logo=vite" alt="Vite" />
-</div>
+A modern, responsive personal finance dashboard built with React that helps you track investments and manage spending in one interface. Built after manually tracking my investments in spreadsheets got tedious!
 
-<br />
-
-A modern, responsive personal finance dashboard built with React that helps you track investments and manage spending in one beautiful interface. Built after manually tracking my investments in spreadsheets got tedious!
-
-## 📸 Screenshots
+## Screenshots
 
 ### Dashboard
 ![Dashboard](./screenshots/dashboard.png)
@@ -26,36 +16,36 @@ A modern, responsive personal finance dashboard built with React that helps you 
 ![Mobile](./screenshots/mobile.png)
 *Fully responsive design for mobile devices*
 
-## ✨ Features
+## Features
 
-### 📊 Portfolio Dashboard
+### Portfolio Dashboard
 - **Real-time portfolio tracking** with total value and daily change
 - **Interactive line charts** showing portfolio performance (1W, 1M, 3M, 1Y views)
 - **Holdings management** with current price, daily change, and total value
 - **Visual indicators** - green for gains, red for losses
 
-### 💰 Spending Tracker
+### Spending Tracker
 - **Expense entry** with amount, category, date, and description
 - **Pie chart breakdown** by category (Food, Transport, Entertainment, Bills, Other)
 - **Monthly comparison** showing spending trends
 - **Category insights** with percentage breakdown
 
-### 👀 Watchlist
+### Watchlist
 - **Track stocks** without owning them
 - **Quick view** of price and daily change
 - **Easy add to portfolio** from watchlist
 - **Top movers** highlighting best/worst performers
 
-### 🎨 Design
+### Design
 - **Dark mode by default** - easy on the eyes
 - **Clean, minimal UI** inspired by modern finance apps
 - **Smooth animations** on data updates and page transitions
-- **Fully responsive** - works beautifully on mobile
+- **Fully responsive** - works on mobile
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Technology | Purpose |
-|------------|---------|
+|-|-|
 | **React 18** | UI library with hooks |
 | **TypeScript** | Type safety and better DX |
 | **Redux Toolkit** | Global state management |
@@ -64,7 +54,7 @@ A modern, responsive personal finance dashboard built with React that helps you 
 | **Recharts** | Data visualization |
 | **Vite** | Fast build tool |
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -103,7 +93,7 @@ Get a free API key at [Alpha Vantage](https://www.alphavantage.co/support/#api-k
 
 > Note: The app works perfectly with mock data if no API key is provided.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -122,7 +112,7 @@ src/
 └── main.tsx              # Entry point
 ```
 
-## 🎯 Key Features Explained
+## Key Features Explained
 
 ### State Management
 - **Redux Toolkit** for predictable state updates
@@ -140,7 +130,7 @@ src/
 - **Pie charts** for spending breakdown
 - **Mini sparklines** for quick stock trends
 
-## 📱 Responsive Design
+## Responsive Design
 
 The app is fully responsive with:
 - Mobile-first approach
@@ -148,15 +138,7 @@ The app is fully responsive with:
 - Touch-friendly interactions
 - Optimized chart sizes for different viewports
 
-## 🎨 UI/UX Highlights
-
-- **Dark theme** optimized for finance apps
-- **Smooth transitions** using CSS animations
-- **Loading skeletons** for better perceived performance
-- **Color-coded values** (green/red for gains/losses)
-- **Inter font** for excellent readability
-
-## 🔮 Future Improvements
+## Future Improvements
 
 - [ ] Add authentication
 - [ ] Connect to real-time stock APIs
@@ -166,24 +148,15 @@ The app is fully responsive with:
 - [ ] Implement dark/light theme toggle
 - [ ] Add unit tests
 
-## 📝 What I Learned
+## What I Learned
 
 Building FinTrack taught me:
 - **Redux Toolkit** patterns for scalable state management
 - **TypeScript** best practices for React applications
-- **Recharts** customization for beautiful data viz
+- **Recharts** customization for data visualization
 - **Tailwind CSS** for rapid, consistent styling
 - **Component composition** for reusable UI
 
-## 📄 License
+## License
 
 MIT License - feel free to use this project for learning or as a starting point for your own finance app!
-
----
-
-<div align="center">
-  <p>Built with ❤️ using React, TypeScript, and Tailwind CSS</p>
-  <p>
-    <a href="https://github.com/PohTeyToe/fintrack">⭐ Star this repo</a> if you found it helpful!
-  </p>
-</div>

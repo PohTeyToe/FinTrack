@@ -103,6 +103,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
     serializer_class = TransactionSerializer
 
+    # TODO: add pagination for large transaction histories
     def get_queryset(self):
         return Transaction.objects.filter(
             holding__portfolio__user=self.request.user

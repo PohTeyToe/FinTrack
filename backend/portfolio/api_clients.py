@@ -79,7 +79,6 @@ _MOCK_QUOTES: dict[str, dict[str, Any]] = {
 
 
 def _get_from_cache(key: str) -> Any | None:
-    """Return cached value if still valid, else None."""
     if key in _cache:
         ts, data = _cache[key]
         if time.time() - ts < _CACHE_TTL:
@@ -88,7 +87,6 @@ def _get_from_cache(key: str) -> Any | None:
 
 
 def _set_cache(key: str, data: Any) -> None:
-    """Store a value in the in-memory cache with current timestamp."""
     _cache[key] = (time.time(), data)
 
 
@@ -143,6 +141,7 @@ def get_quote(symbol: str) -> dict[str, Any] | None:
         return result
 
     except Exception:
+        # FIXME: yfinance rate limiting not handled gracefully
         # Fall back to mock data
         mock = _MOCK_QUOTES.get(symbol)
         if mock:

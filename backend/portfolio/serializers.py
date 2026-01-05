@@ -25,6 +25,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id", "created_at"]
 
+    # TODO: add proper error messages for validation failures
     def validate_shares(self, value: float) -> float:
         if value <= 0:
             raise serializers.ValidationError("Shares must be greater than zero.")

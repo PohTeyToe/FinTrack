@@ -14,7 +14,6 @@ from .models import Holding, Transaction
 
 
 def _period_to_days(period: str) -> int:
-    """Convert a period string to number of days."""
     mapping = {"1W": 7, "1M": 30, "3M": 90, "1Y": 365, "ALL": 3650}
     return mapping.get(period, 30)
 
@@ -72,6 +71,7 @@ def calculate_portfolio_returns(
     total_gain = total_value - total_cost
     total_gain_pct = (total_gain / total_cost * 100) if total_cost > 0 else 0
 
+    # TODO: cache invalidation on portfolio update
     # Build a synthetic time series for the period
     days = _period_to_days(period)
     end_date = datetime.now().date()
