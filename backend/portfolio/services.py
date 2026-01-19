@@ -18,6 +18,19 @@ def _period_to_days(period: str) -> int:
     return mapping.get(period, 30)
 
 
+_EMPTY_RETURNS = {
+    "total_value": 0,
+    "total_cost": 0,
+    "total_gain": 0,
+    "total_gain_percent": 0,
+    "daily_change": 0,
+    "period_return": 0,
+    "time_series": [],
+}
+
+_VALID_PERIODS = {"1W", "1M", "3M", "1Y", "ALL"}
+
+
 def calculate_portfolio_returns(
     portfolio_id: int, period: str = "1M"
 ) -> dict[str, Any]:
@@ -32,18 +45,18 @@ def calculate_portfolio_returns(
 
     Returns:
         Dictionary with return metrics and a time-series of values.
+
+    Raises:
+        ValueError: If period is not a recognised time window.
     """
+    if period not in _VALID_PERIODS:
+        raise ValueError(
+            f"Invalid period '{period}'. Must be one of {sorted(_VALID_PERIODS)}."
+        )
+
     holdings = Holding.objects.filter(portfolio_id=portfolio_id)
     if not holdings.exists():
-        return {
-            "total_value": 0,
-            "total_cost": 0,
-            "total_gain": 0,
-            "total_gain_percent": 0,
-            "daily_change": 0,
-            "period_return": 0,
-            "time_series": [],
-        }
+        return {**_EMPTY_RETURNS}
 
     df = pd.DataFrame(
         list(
@@ -56,6 +69,10 @@ def calculate_portfolio_returns(
     df["shares"] = df["shares"].astype(float)
     df["avg_cost"] = df["avg_cost"].astype(float)
     df["current_price"] = df["current_price"].astype(float)
+
+    # Handle edge case where all holdings have zero shares
+    if (df["shares"] == 0).all():
+        return {**_EMPTY_RETURNS}
 
     df["market_value"] = df["shares"] * df["current_price"]
     df["cost_basis"] = df["shares"] * df["avg_cost"]
