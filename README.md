@@ -138,15 +138,88 @@ The app is fully responsive with:
 - Touch-friendly interactions
 - Optimized chart sizes for different viewports
 
+## Backend Setup
+
+The Django backend requires a few environment variables. Copy `.env.example` and customise:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Default | Description |
+|-|-|-|
+| `DJANGO_SECRET_KEY` | `dev-secret-key-change-me` | Django secret key (change in prod) |
+| `DJANGO_DEBUG` | `True` | Debug mode toggle |
+| `DB_HOST` | `localhost` | PostgreSQL host |
+| `DB_NAME` | `fintrack` | Database name |
+| `DB_USER` | `fintrack` | Database user |
+| `DB_PASSWORD` | `fintrack` | Database password |
+| `ALPHA_VANTAGE_KEY` | *(empty)* | Optional real-time market data |
+
+Start everything with Docker:
+
+```bash
+docker-compose up -d
+```
+
+Or run the backend manually (requires a local PostgreSQL instance):
+
+```bash
+cd backend
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+## API Usage Examples
+
+All endpoints live under `/api/`. Authentication is session-based for now.
+
+**List portfolios**
+```bash
+curl http://localhost:8000/api/portfolios/
+```
+
+**Get portfolio returns (1-month window)**
+```bash
+curl http://localhost:8000/api/portfolios/1/returns/?period=1M
+```
+
+**Create a holding**
+```bash
+curl -X POST http://localhost:8000/api/holdings/ \
+  -H "Content-Type: application/json" \
+  -d '{"portfolio": 1, "symbol": "AAPL", "shares": "10", "avg_cost": "150.00", "sector": "technology"}'
+```
+
+**Spending analytics (3-month pattern analysis)**
+```bash
+curl http://localhost:8000/api/spending/patterns/?period=3M
+```
+
+**Generate spending report for a date range**
+```bash
+curl "http://localhost:8000/api/spending/report/?start=2025-10-01&end=2025-12-31"
+```
+
+**Watchlist**
+```bash
+# List watched stocks
+curl http://localhost:8000/api/watchlist/
+
+# Add a stock to watchlist
+curl -X POST http://localhost:8000/api/watchlist/ \
+  -H "Content-Type: application/json" \
+  -d '{"symbol": "NVDA"}'
+```
+
 ## Future Improvements
 
-- [ ] Add authentication
-- [ ] Connect to real-time stock APIs
+- [ ] Add authentication with JWT tokens
 - [ ] Export data to CSV/PDF
 - [ ] Set spending budgets and alerts
 - [ ] Add more chart types
 - [ ] Implement dark/light theme toggle
-- [ ] Add unit tests
 
 ## What I Learned
 
