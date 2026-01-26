@@ -54,6 +54,18 @@ A modern, responsive personal finance dashboard built with React that helps you 
 | **Recharts** | Data visualization |
 | **Vite** | Fast build tool |
 
+## Architecture Decisions
+
+- **Django over FastAPI** — Django's built-in admin interface provides immediate data management UI without building custom CRUD views. The ORM with migrations handles schema evolution as the portfolio model grew. DRF (Django REST Framework) provides serializers, viewsets, and browsable API for faster API development.
+
+- **pandas for portfolio analytics** — Single-user scale data (hundreds of holdings, not millions) makes pandas the right tool. Rich financial functions (rolling windows, percentage changes, resampling) integrate naturally with yfinance data. NumPy operations handle returns calculations efficiently.
+
+- **yfinance for market data** — Free, no API key required, covers all major exchanges. Good enough for a personal portfolio tracker where real-time data isn't critical. The `download()` API handles batch requests for multiple tickers efficiently.
+
+- **Redux Toolkit for frontend state** — Centralized portfolio state prevents prop-drilling across dashboard components. RTK Query handles API caching and invalidation automatically. Redux DevTools simplify debugging state changes during development.
+
+- **PostgreSQL over SQLite** — Needed concurrent read/write access for background data refresh jobs. JSON column support stores flexible metadata per holding. Better date/time functions for financial time series queries.
+
 ## Getting Started
 
 ### Prerequisites
