@@ -225,13 +225,21 @@ curl -X POST http://localhost:8000/api/watchlist/ \
   -d '{"symbol": "NVDA"}'
 ```
 
-## Future Improvements
+## Known Issues
 
-- [ ] Add authentication with JWT tokens
-- [ ] Export data to CSV/PDF
-- [ ] Set spending budgets and alerts
-- [ ] Add more chart types
-- [ ] Implement dark/light theme toggle
+- Market data refresh is synchronous — large portfolios (50+ tickers) can timeout on the API call
+- Returns calculation assumes all transactions are in USD; no multi-currency support
+- yfinance occasionally returns stale data for less-traded securities
+- Portfolio allocation chart doesn't account for pending sell orders
+- CSV import doesn't validate ticker symbols against any exchange
+
+## Roadmap
+
+- [ ] Background task queue (Celery) for async market data refresh
+- [ ] Multi-currency portfolio support with exchange rate conversion
+- [ ] Tax-loss harvesting analysis and suggestions
+- [ ] Portfolio rebalancing recommendations based on target allocation
+- [ ] Email alerts for significant portfolio value changes (>5% daily)
 
 ## What I Learned
 
