@@ -1,6 +1,8 @@
 # FinTrack - Personal Finance Dashboard
 
-A modern, responsive personal finance dashboard built with React that helps you track investments and manage spending in one interface. Built after manually tracking my investments in spreadsheets got tedious!
+Full-stack portfolio tracker and spending manager for individual investors. Tracks holdings with live market data, calculates returns over configurable windows, and visualizes spending patterns -- all in one dashboard instead of scattered spreadsheets.
+
+**Live Demo:** [Frontend](https://fintrack-dashboard-dusky.vercel.app) | [Backend API](https://fintrack-api-4lux.onrender.com/api/)
 
 ## Screenshots
 
@@ -46,13 +48,15 @@ A modern, responsive personal finance dashboard built with React that helps you 
 
 | Technology | Purpose |
 |-|-|
+| **Django + DRF** | Backend API with ORM and browsable API |
+| **PostgreSQL** | Relational database with JSON column support |
+| **pandas + yfinance** | Portfolio analytics and live market data |
 | **React 18** | UI library with hooks |
 | **TypeScript** | Type safety and better DX |
 | **Redux Toolkit** | Global state management |
-| **React Router** | Client-side routing |
 | **Tailwind CSS** | Utility-first styling |
 | **Recharts** | Data visualization |
-| **Vite** | Fast build tool |
+| **Docker Compose** | Local development environment |
 
 ## Architecture Decisions
 
@@ -238,7 +242,7 @@ curl -X POST http://localhost:8000/api/watchlist/ \
 3. Render will provision the PostgreSQL database and Django service automatically
 4. Demo data is loaded automatically on first deploy
 
-**Live Demo:** [Frontend](https://fintrack-dashboard-dusky.vercel.app) · [Backend API](https://fintrack-api-4lux.onrender.com/api/)
+See live links at the top of this README.
 
 ## Known Issues
 
@@ -255,15 +259,6 @@ curl -X POST http://localhost:8000/api/watchlist/ \
 - [ ] Tax-loss harvesting analysis and suggestions
 - [ ] Portfolio rebalancing recommendations based on target allocation
 - [ ] Email alerts for significant portfolio value changes (>5% daily)
-
-## What I Learned
-
-Building FinTrack taught me:
-- **Redux Toolkit** patterns for scalable state management
-- **TypeScript** best practices for React applications
-- **Recharts** customization for data visualization
-- **Tailwind CSS** for rapid, consistent styling
-- **Component composition** for reusable UI
 
 ## License
 
