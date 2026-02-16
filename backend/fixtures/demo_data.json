@@ -1,0 +1,496 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "demo",
+      "email": "demo@fintrack.app",
+      "password": "pbkdf2_sha256$600000$salt$hash",
+      "is_active": true,
+      "is_staff": true,
+      "date_joined": "2025-01-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.portfolio",
+    "pk": 1,
+    "fields": {
+      "name": "Main Portfolio",
+      "user": 1,
+      "description": "Primary investment portfolio",
+      "created_at": "2025-01-15T10:30:00Z",
+      "updated_at": "2025-11-20T14:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.holding",
+    "pk": 1,
+    "fields": {
+      "portfolio": 1,
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "shares": "15.0000",
+      "avg_cost": "178.5000",
+      "current_price": "227.6300",
+      "sector": "technology",
+      "created_at": "2025-02-10T09:00:00Z",
+      "updated_at": "2025-11-20T14:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.holding",
+    "pk": 2,
+    "fields": {
+      "portfolio": 1,
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc.",
+      "shares": "8.0000",
+      "avg_cost": "141.2000",
+      "current_price": "174.1200",
+      "sector": "technology",
+      "created_at": "2025-02-15T09:00:00Z",
+      "updated_at": "2025-11-20T14:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.holding",
+    "pk": 3,
+    "fields": {
+      "portfolio": 1,
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "shares": "10.0000",
+      "avg_cost": "375.0000",
+      "current_price": "415.8400",
+      "sector": "technology",
+      "created_at": "2025-03-01T09:00:00Z",
+      "updated_at": "2025-11-20T14:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.holding",
+    "pk": 4,
+    "fields": {
+      "portfolio": 1,
+      "symbol": "TSLA",
+      "name": "Tesla Inc.",
+      "shares": "12.0000",
+      "avg_cost": "245.7500",
+      "current_price": "352.5600",
+      "sector": "consumer",
+      "created_at": "2025-03-20T09:00:00Z",
+      "updated_at": "2025-11-20T14:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.holding",
+    "pk": 5,
+    "fields": {
+      "portfolio": 1,
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "shares": "20.0000",
+      "avg_cost": "480.3000",
+      "current_price": "138.2500",
+      "sector": "technology",
+      "created_at": "2025-04-05T09:00:00Z",
+      "updated_at": "2025-11-20T14:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.holding",
+    "pk": 6,
+    "fields": {
+      "portfolio": 1,
+      "symbol": "AMZN",
+      "name": "Amazon.com Inc.",
+      "shares": "18.0000",
+      "avg_cost": "178.9000",
+      "current_price": "205.7400",
+      "sector": "consumer",
+      "created_at": "2025-05-10T09:00:00Z",
+      "updated_at": "2025-11-20T14:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.holding",
+    "pk": 7,
+    "fields": {
+      "portfolio": 1,
+      "symbol": "JPM",
+      "name": "JPMorgan Chase & Co.",
+      "shares": "6.0000",
+      "avg_cost": "195.4000",
+      "current_price": "253.8800",
+      "sector": "financial",
+      "created_at": "2025-06-01T09:00:00Z",
+      "updated_at": "2025-11-20T14:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.transaction",
+    "pk": 1,
+    "fields": {
+      "holding": 1,
+      "type": "BUY",
+      "shares": "15.0000",
+      "price": "178.5000",
+      "fees": "0.00",
+      "date": "2025-02-10",
+      "notes": "Initial AAPL position",
+      "created_at": "2025-02-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.transaction",
+    "pk": 2,
+    "fields": {
+      "holding": 2,
+      "type": "BUY",
+      "shares": "8.0000",
+      "price": "141.2000",
+      "fees": "0.00",
+      "date": "2025-02-15",
+      "notes": "Initial GOOGL position",
+      "created_at": "2025-02-15T09:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.transaction",
+    "pk": 3,
+    "fields": {
+      "holding": 3,
+      "type": "BUY",
+      "shares": "10.0000",
+      "price": "375.0000",
+      "fees": "0.00",
+      "date": "2025-03-01",
+      "notes": "Initial MSFT position",
+      "created_at": "2025-03-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.transaction",
+    "pk": 4,
+    "fields": {
+      "holding": 4,
+      "type": "BUY",
+      "shares": "12.0000",
+      "price": "245.7500",
+      "fees": "0.00",
+      "date": "2025-03-20",
+      "notes": "Initial TSLA position",
+      "created_at": "2025-03-20T09:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.transaction",
+    "pk": 5,
+    "fields": {
+      "holding": 5,
+      "type": "BUY",
+      "shares": "20.0000",
+      "price": "480.3000",
+      "fees": "0.00",
+      "date": "2025-04-05",
+      "notes": "Initial NVDA position",
+      "created_at": "2025-04-05T09:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.transaction",
+    "pk": 6,
+    "fields": {
+      "holding": 6,
+      "type": "BUY",
+      "shares": "18.0000",
+      "price": "178.9000",
+      "fees": "0.00",
+      "date": "2025-05-10",
+      "notes": "Initial AMZN position",
+      "created_at": "2025-05-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.transaction",
+    "pk": 7,
+    "fields": {
+      "holding": 7,
+      "type": "BUY",
+      "shares": "6.0000",
+      "price": "195.4000",
+      "fees": "0.00",
+      "date": "2025-06-01",
+      "notes": "Initial JPM position",
+      "created_at": "2025-06-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Food",
+      "user": 1,
+      "budget_limit": "500.00",
+      "color": "#ef4444",
+      "icon": "utensils",
+      "created_at": "2025-01-15T11:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Transport",
+      "user": 1,
+      "budget_limit": "200.00",
+      "color": "#3b82f6",
+      "icon": "car",
+      "created_at": "2025-01-15T11:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Entertainment",
+      "user": 1,
+      "budget_limit": "150.00",
+      "color": "#a855f7",
+      "icon": "film",
+      "created_at": "2025-01-15T11:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Utilities",
+      "user": 1,
+      "budget_limit": "300.00",
+      "color": "#f59e0b",
+      "icon": "bolt",
+      "created_at": "2025-01-15T11:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingcategory",
+    "pk": 5,
+    "fields": {
+      "name": "Shopping",
+      "user": 1,
+      "budget_limit": "400.00",
+      "color": "#10b981",
+      "icon": "bag-shopping",
+      "created_at": "2025-01-15T11:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 1,
+    "fields": {
+      "category": 1,
+      "amount": "45.80",
+      "description": "Grocery run at No Frills",
+      "date": "2025-11-01",
+      "recurring": false,
+      "created_at": "2025-11-01T18:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 2,
+    "fields": {
+      "category": 1,
+      "amount": "22.50",
+      "description": "Lunch at Banh Mi Boys",
+      "date": "2025-11-03",
+      "recurring": false,
+      "created_at": "2025-11-03T12:30:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 3,
+    "fields": {
+      "category": 2,
+      "amount": "156.00",
+      "description": "Monthly Presto pass",
+      "date": "2025-11-01",
+      "recurring": true,
+      "created_at": "2025-11-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 4,
+    "fields": {
+      "category": 3,
+      "amount": "15.99",
+      "description": "Netflix subscription",
+      "date": "2025-11-05",
+      "recurring": true,
+      "created_at": "2025-11-05T10:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 5,
+    "fields": {
+      "category": 4,
+      "amount": "85.40",
+      "description": "Hydro bill",
+      "date": "2025-11-10",
+      "recurring": true,
+      "created_at": "2025-11-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 6,
+    "fields": {
+      "category": 5,
+      "amount": "129.99",
+      "description": "Wireless earbuds",
+      "date": "2025-11-08",
+      "recurring": false,
+      "created_at": "2025-11-08T14:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 7,
+    "fields": {
+      "category": 1,
+      "amount": "67.20",
+      "description": "Costco haul",
+      "date": "2025-11-12",
+      "recurring": false,
+      "created_at": "2025-11-12T16:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 8,
+    "fields": {
+      "category": 2,
+      "amount": "28.50",
+      "description": "Uber to airport",
+      "date": "2025-11-14",
+      "recurring": false,
+      "created_at": "2025-11-14T06:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 9,
+    "fields": {
+      "category": 3,
+      "amount": "45.00",
+      "description": "Movie tickets x2",
+      "date": "2025-11-15",
+      "recurring": false,
+      "created_at": "2025-11-15T19:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 10,
+    "fields": {
+      "category": 4,
+      "amount": "65.00",
+      "description": "Internet bill",
+      "date": "2025-11-15",
+      "recurring": true,
+      "created_at": "2025-11-15T09:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 11,
+    "fields": {
+      "category": 5,
+      "amount": "79.99",
+      "description": "Winter jacket on sale",
+      "date": "2025-11-17",
+      "recurring": false,
+      "created_at": "2025-11-17T11:00:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 12,
+    "fields": {
+      "category": 1,
+      "amount": "18.75",
+      "description": "Coffee and pastry",
+      "date": "2025-11-18",
+      "recurring": false,
+      "created_at": "2025-11-18T08:30:00Z"
+    }
+  },
+  {
+    "model": "analytics.spendingentry",
+    "pk": 13,
+    "fields": {
+      "category": 2,
+      "amount": "42.00",
+      "description": "Gas fill-up",
+      "date": "2025-11-19",
+      "recurring": false,
+      "created_at": "2025-11-19T17:00:00Z"
+    }
+  },
+  {
+    "model": "watchlist.watchlistitem",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "symbol": "META",
+      "name": "Meta Platforms Inc.",
+      "target_price": "550.0000",
+      "alert_type": "BELOW",
+      "notes": "Waiting for a dip to enter",
+      "created_at": "2025-10-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "watchlist.watchlistitem",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "symbol": "AMD",
+      "name": "Advanced Micro Devices Inc.",
+      "target_price": "120.0000",
+      "alert_type": "BELOW",
+      "notes": "Good entry point below 120",
+      "created_at": "2025-10-05T09:00:00Z"
+    }
+  },
+  {
+    "model": "watchlist.watchlistitem",
+    "pk": 3,
+    "fields": {
+      "user": 1,
+      "symbol": "COST",
+      "name": "Costco Wholesale Corporation",
+      "target_price": "900.0000",
+      "alert_type": "BELOW",
+      "notes": "Long-term hold candidate",
+      "created_at": "2025-10-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "watchlist.watchlistitem",
+    "pk": 4,
+    "fields": {
+      "user": 1,
+      "symbol": "V",
+      "name": "Visa Inc.",
+      "target_price": "280.0000",
+      "alert_type": "BELOW",
+      "notes": "Fintech exposure",
+      "created_at": "2025-10-15T09:00:00Z"
+    }
+  }
+]

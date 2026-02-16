@@ -225,6 +225,21 @@ curl -X POST http://localhost:8000/api/watchlist/ \
   -d '{"symbol": "NVDA"}'
 ```
 
+## Deployment
+
+### Frontend (Vercel)
+1. Connect the repository on [Vercel](https://vercel.com)
+2. Set `VITE_API_BASE_URL` to your Render backend URL
+3. Deploy — `vercel.json` configures the build automatically
+
+### Backend (Render)
+1. Connect the repository on [Render](https://render.com)
+2. Create a new Blueprint from `render.yaml`
+3. Render will provision the PostgreSQL database and Django service automatically
+4. Demo data is loaded automatically on first deploy
+
+**Live Demo:** [Frontend](https://fintrack-dashboard-dusky.vercel.app) · [Backend API](https://fintrack-api-4lux.onrender.com/api/)
+
 ## Known Issues
 
 - Market data refresh is synchronous — large portfolios (50+ tickers) can timeout on the API call

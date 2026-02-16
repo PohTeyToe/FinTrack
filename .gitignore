@@ -43,3 +43,17 @@ coverage
 # Misc
 *.tsbuildinfo
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+db.sqlite3
+venv/
+.venv/
+*.egg
+dist/
+build/
+
+
+.vercel
