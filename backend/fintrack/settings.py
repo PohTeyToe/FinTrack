@@ -71,6 +71,7 @@ DATABASES = {
         conn_max_age=600,
     )
 }
+DATABASES["default"].setdefault("OPTIONS", {})["connect_timeout"] = 5
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
