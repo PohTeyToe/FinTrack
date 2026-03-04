@@ -48,7 +48,7 @@ jobs:
           cd backend
           pytest -v
 
-  frontend-build:
+  frontend-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -64,6 +64,9 @@ jobs:
 
       - name: Lint
         run: npm run lint 2>/dev/null || true
+
+      - name: Test
+        run: npm test
 
       - name: Build
         run: npm run build
