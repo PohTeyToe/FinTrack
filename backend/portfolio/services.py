@@ -3,6 +3,7 @@
 Each function loads data from the database into DataFrames,
 applies transformations, and returns structured results for the API.
 """
+import logging
 from datetime import datetime, timedelta
 from decimal import Decimal
 from typing import Any
@@ -12,11 +13,9 @@ import pandas as pd
 
 from .models import Holding, Transaction
 
+logger = logging.getLogger(__name__)
 
-def _period_to_days(period: str) -> int:
-    mapping = {"1W": 7, "1M": 30, "3M": 90, "1Y": 365, "ALL": 3650}
-    return mapping.get(period, 30)
-
+_YF_PERIOD_MAP = {"1W": "5d", "1M": "1mo", "3M": "3mo", "1Y": "1y", "ALL": "5y"}
 
 _EMPTY_RETURNS = {
     "total_value": 0,
@@ -31,13 +30,51 @@ _EMPTY_RETURNS = {
 _VALID_PERIODS = {"1W", "1M", "3M", "1Y", "ALL"}
 
 
+def _fetch_historical_prices(
+    symbols: list[str], period: str
+) -> pd.DataFrame | None:
+    """Fetch historical closing prices from yfinance.
+
+    Returns a DataFrame indexed by date with one column per symbol,
+    or None if the download fails.
+    """
+    yf_period = _YF_PERIOD_MAP.get(period, "1mo")
+    try:
+        import yfinance as yf
+
+        data = yf.download(
+            tickers=symbols,
+            period=yf_period,
+            progress=False,
+            threads=True,
+        )
+        if data.empty:
+            return None
+
+        # yf.download returns MultiIndex columns for multiple tickers
+        if isinstance(data.columns, pd.MultiIndex):
+            closes = data["Close"]
+        else:
+            # Single ticker -- column is just 'Close'
+            closes = data[["Close"]].rename(columns={"Close": symbols[0]})
+
+        closes = closes.dropna(how="all")
+        if closes.empty:
+            return None
+        return closes
+    except Exception:
+        logger.warning("yfinance download failed for %s", symbols, exc_info=True)
+        return None
+
+
 def calculate_portfolio_returns(
     portfolio_id: int, period: str = "1M"
 ) -> dict[str, Any]:
     """Calculate portfolio return metrics over a given period.
 
-    Loads holdings and transactions into a DataFrame, computes daily,
-    weekly, and monthly returns, total gain/loss, and percentage change.
+    Fetches real historical closing prices from yfinance for each
+    holding, computes a weighted portfolio value per day, and derives
+    return metrics from the actual price history.
 
     Args:
         portfolio_id: Primary key of the portfolio.
@@ -88,26 +125,58 @@ def calculate_portfolio_returns(
     total_gain = total_value - total_cost
     total_gain_pct = (total_gain / total_cost * 100) if total_cost > 0 else 0
 
-    # TODO: cache invalidation on portfolio update
-    # Build a synthetic time series for the period
-    days = _period_to_days(period)
-    end_date = datetime.now().date()
-    start_date = end_date - timedelta(days=days)
+    # Build time series from real historical prices
+    symbols = df["symbol"].tolist()
+    shares_map = dict(zip(df["symbol"], df["shares"]))
+    closes = _fetch_historical_prices(symbols, period)
 
-    date_range = pd.date_range(start=start_date, end=end_date, freq="D")
-    np.random.seed(int(portfolio_id) + len(df))
-    base_value = total_cost
-    noise = np.random.normal(0, total_value * 0.005, size=len(date_range))
-    trend = np.linspace(0, total_value - total_cost, len(date_range))
-    values = base_value + trend + np.cumsum(noise)
-    values = np.clip(values, total_cost * 0.8, total_value * 1.2)
-    values[-1] = total_value
+    if closes is None or closes.empty:
+        # No historical data available -- return metrics without time series
+        return {
+            "total_value": round(total_value, 2),
+            "total_cost": round(total_cost, 2),
+            "total_gain": round(total_gain, 2),
+            "total_gain_percent": round(total_gain_pct, 2),
+            "daily_change": 0,
+            "period_return": 0,
+            "holdings": df[
+                ["symbol", "market_value", "gain_loss", "gain_loss_pct"]
+            ].to_dict(orient="records"),
+            "time_series": [],
+            "data_source": "unavailable",
+        }
+
+    # Compute weighted portfolio value per day
+    portfolio_values = pd.Series(0.0, index=closes.index)
+    for sym in symbols:
+        if sym in closes.columns:
+            col = closes[sym].fillna(method="ffill")
+            portfolio_values += col * shares_map[sym]
+
+    # Drop any leading zeros from symbols missing early data
+    portfolio_values = portfolio_values[portfolio_values > 0]
+
+    if portfolio_values.empty:
+        return {
+            "total_value": round(total_value, 2),
+            "total_cost": round(total_cost, 2),
+            "total_gain": round(total_gain, 2),
+            "total_gain_percent": round(total_gain_pct, 2),
+            "daily_change": 0,
+            "period_return": 0,
+            "holdings": df[
+                ["symbol", "market_value", "gain_loss", "gain_loss_pct"]
+            ].to_dict(orient="records"),
+            "time_series": [],
+            "data_source": "unavailable",
+        }
 
     time_series = [
         {"date": d.strftime("%Y-%m-%d"), "value": round(float(v), 2)}
-        for d, v in zip(date_range, values)
+        for d, v in zip(portfolio_values.index, portfolio_values.values)
     ]
 
+    values = portfolio_values.values
     daily_change = float(values[-1] - values[-2]) if len(values) > 1 else 0
     period_return = (
         ((values[-1] - values[0]) / values[0]) * 100 if values[0] > 0 else 0
@@ -118,12 +187,13 @@ def calculate_portfolio_returns(
         "total_cost": round(total_cost, 2),
         "total_gain": round(total_gain, 2),
         "total_gain_percent": round(total_gain_pct, 2),
-        "daily_change": round(daily_change, 2),
+        "daily_change": round(float(daily_change), 2),
         "period_return": round(float(period_return), 2),
         "holdings": df[
             ["symbol", "market_value", "gain_loss", "gain_loss_pct"]
         ].to_dict(orient="records"),
         "time_series": time_series,
+        "data_source": "yfinance",
     }
 
 
