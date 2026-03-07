@@ -151,6 +151,22 @@ export interface TrendResponse {
   rolling_30d: Array<{ date: string; value: number }>;
 }
 
+export interface BudgetCategoryResponse {
+  id: number;
+  name: string;
+  color: string;
+  budget_limit: number | null;
+  spent: number;
+  remaining: number | null;
+  percentage_used: number | null;
+  over_budget: boolean;
+}
+
+export interface BudgetSummaryResponse {
+  month: string;
+  categories: BudgetCategoryResponse[];
+}
+
 export const analyticsApi = {
   breakdown: (period?: string) =>
     request<SpendingBreakdownResponse>('/analytics/spending/breakdown/', {
@@ -161,6 +177,8 @@ export const analyticsApi = {
     request<Record<string, unknown>>('/analytics/spending/report/', {
       params: { start, end },
     }),
+  budgetSummary: () =>
+    request<BudgetSummaryResponse>('/analytics/spending/budget-summary/'),
 };
 
 // ---------- Watchlist endpoints ----------

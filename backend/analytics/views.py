@@ -2,8 +2,9 @@
 """API views for spending analytics."""
 from datetime import date, timedelta
 
+from django.db.models import Sum
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -81,3 +82,49 @@ class SpendingAnalyticsViewSet(viewsets.ViewSet):
 
         result = generate_spending_report(request.user.id, start, end)
         return Response(result)
+
+
+@api_view(["GET"])
+def budget_summary(request: Request) -> Response:
+    """Return categories with budget limits vs actual spending this month.
+
+    Each category includes its budget_limit, total spent this month,
+    remaining budget, and whether the budget has been exceeded.
+    """
+    today = date.today()
+    month_start = today.replace(day=1)
+
+    categories = SpendingCategory.objects.filter(user=request.user)
+    results = []
+
+    for cat in categories:
+        spent = (
+            cat.entries.filter(date__gte=month_start, date__lte=today)
+            .aggregate(total=Sum("amount"))["total"]
+        ) or 0
+        spent = float(spent)
+        budget = float(cat.budget_limit) if cat.budget_limit else None
+
+        entry = {
+            "id": cat.id,
+            "name": cat.name,
+            "color": cat.color,
+            "budget_limit": budget,
+            "spent": round(spent, 2),
+        }
+
+        if budget is not None and budget > 0:
+            entry["remaining"] = round(budget - spent, 2)
+            entry["percentage_used"] = round((spent / budget) * 100, 2)
+            entry["over_budget"] = spent > budget
+        else:
+            entry["remaining"] = None
+            entry["percentage_used"] = None
+            entry["over_budget"] = False
+
+        results.append(entry)
+
+    return Response({
+        "month": today.strftime("%Y-%m"),
+        "categories": results,
+    })

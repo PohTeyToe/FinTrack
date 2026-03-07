@@ -1,4 +1,4 @@
+export { default as BudgetSummary } from './BudgetSummary';
 export { default as ExpenseForm } from './ExpenseForm';
 export { default as ExpenseList } from './ExpenseList';
 export { default as SpendingSummary } from './SpendingSummary';
-

@@ -4,7 +4,7 @@ import { RootState } from '../store/store';
 import { SpendingByCategory, ExpenseCategory, CATEGORY_CONFIG, Expense } from '../types';
 import { Card, CardHeader, CardTitle, Button, Modal } from '../components/common';
 import { SpendingPieChart } from '../components/charts';
-import { ExpenseForm, ExpenseList, SpendingSummary } from '../components/spending';
+import { BudgetSummary, ExpenseForm, ExpenseList, SpendingSummary } from '../components/spending';
 
 const Spending = () => {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -124,6 +124,9 @@ const Spending = () => {
 
           {/* Summary Stats */}
           <SpendingSummary />
+
+          {/* Budget Tracking */}
+          <BudgetSummary />
         </div>
 
         {/* Expense List */}
