@@ -31,12 +31,17 @@ Full-stack portfolio tracker and spending manager for individual investors. Trac
 - **Pie chart breakdown** by category (Food, Transport, Entertainment, Bills, Other)
 - **Monthly comparison** showing spending trends
 - **Category insights** with percentage breakdown
+- **Budget tracking** with per-category limits and over-budget alerts
 
 ### Watchlist
 - **Track stocks** without owning them
 - **Quick view** of price and daily change
 - **Easy add to portfolio** from watchlist
 - **Top movers** highlighting best/worst performers
+
+### Data Export
+- **CSV export** for portfolio holdings and transactions
+- **CSV export** for spending entries
 
 ### Design
 - **Dark mode by default** - easy on the eyes
@@ -96,18 +101,6 @@ Full-stack portfolio tracker and spending manager for individual investors. Trac
 
 4. **Open your browser**
    Navigate to `http://localhost:3000`
-
-### Environment Variables (Optional)
-
-To use real stock data from Alpha Vantage API, create a `.env` file:
-
-```bash
-VITE_ALPHA_VANTAGE_KEY=your_api_key_here
-```
-
-Get a free API key at [Alpha Vantage](https://www.alphavantage.co/support/#api-key)
-
-> Note: The app works perfectly with mock data if no API key is provided.
 
 ## Project Structure
 
@@ -170,7 +163,6 @@ cp .env.example .env
 | `DB_NAME` | `fintrack` | Database name |
 | `DB_USER` | `fintrack` | Database user |
 | `DB_PASSWORD` | `fintrack` | Database password |
-| `ALPHA_VANTAGE_KEY` | *(empty)* | Optional real-time market data |
 
 Start everything with Docker:
 
@@ -187,45 +179,108 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Authentication
+
+The API uses **token-based authentication** via Django REST Framework's `TokenAuthentication`. After registering or logging in, include the token in subsequent requests.
+
+### Auth Endpoints
+
+**Register a new user**
+```bash
+curl -X POST http://localhost:8000/api/auth/register/ \
+  -H "Content-Type: application/json" \
+  -d '{"username": "demo", "password": "securepass", "email": "demo@example.com"}'
+# Returns: {"token": "<token>", "user_id": 1, "username": "demo"}
+```
+
+**Log in (obtain token)**
+```bash
+curl -X POST http://localhost:8000/api/auth/login/ \
+  -H "Content-Type: application/json" \
+  -d '{"username": "demo", "password": "securepass"}'
+# Returns: {"token": "<token>"}
+```
+
+**Log out (invalidate token)**
+```bash
+curl -X POST http://localhost:8000/api/auth/logout/ \
+  -H "Authorization: Token <token>"
+```
+
 ## API Usage Examples
 
-All endpoints live under `/api/`. Authentication is session-based for now.
+All endpoints live under `/api/`. Include the auth header with every request:
+
+```
+Authorization: Token <token>
+```
 
 **List portfolios**
 ```bash
-curl http://localhost:8000/api/portfolios/
+curl http://localhost:8000/api/portfolios/ \
+  -H "Authorization: Token <token>"
 ```
 
 **Get portfolio returns (1-month window)**
 ```bash
-curl http://localhost:8000/api/portfolios/1/returns/?period=1M
+curl http://localhost:8000/api/portfolios/1/returns/?period=1M \
+  -H "Authorization: Token <token>"
 ```
 
 **Create a holding**
 ```bash
 curl -X POST http://localhost:8000/api/holdings/ \
   -H "Content-Type: application/json" \
+  -H "Authorization: Token <token>" \
   -d '{"portfolio": 1, "symbol": "AAPL", "shares": "10", "avg_cost": "150.00", "sector": "technology"}'
 ```
 
 **Spending analytics (3-month pattern analysis)**
 ```bash
-curl http://localhost:8000/api/spending/patterns/?period=3M
+curl http://localhost:8000/api/analytics/spending/patterns/?period=3M \
+  -H "Authorization: Token <token>"
 ```
 
 **Generate spending report for a date range**
 ```bash
-curl "http://localhost:8000/api/spending/report/?start=2025-10-01&end=2025-12-31"
+curl "http://localhost:8000/api/analytics/spending/report/?start=2025-10-01&end=2025-12-31" \
+  -H "Authorization: Token <token>"
+```
+
+**Budget summary (current month)**
+```bash
+curl http://localhost:8000/api/analytics/spending/budget-summary/ \
+  -H "Authorization: Token <token>"
+```
+
+**Export portfolio as CSV**
+```bash
+curl http://localhost:8000/api/portfolio/export/ \
+  -H "Authorization: Token <token>" -o portfolio.csv
+```
+
+**Export spending as CSV**
+```bash
+curl http://localhost:8000/api/analytics/spending/export/ \
+  -H "Authorization: Token <token>" -o spending.csv
+```
+
+**Health check (no auth required)**
+```bash
+curl http://localhost:8000/api/health/
+# Returns: {"status": "ok", "database": "connected"}
 ```
 
 **Watchlist**
 ```bash
 # List watched stocks
-curl http://localhost:8000/api/watchlist/
+curl http://localhost:8000/api/watchlist/ \
+  -H "Authorization: Token <token>"
 
 # Add a stock to watchlist
 curl -X POST http://localhost:8000/api/watchlist/ \
   -H "Content-Type: application/json" \
+  -H "Authorization: Token <token>" \
   -d '{"symbol": "NVDA"}'
 ```
 
@@ -250,7 +305,6 @@ See live links at the top of this README.
 - Returns calculation assumes all transactions are in USD; no multi-currency support
 - yfinance occasionally returns stale data for less-traded securities
 - Portfolio allocation chart doesn't account for pending sell orders
-- CSV import doesn't validate ticker symbols against any exchange
 
 ## Roadmap
 
