@@ -8,7 +8,7 @@
 4. Run migrations: `python manage.py migrate`
 5. Seed demo data: `python manage.py loaddata fixtures/demo_portfolio.json`
 6. Start the backend: `python manage.py runserver`
-7. Install frontend dependencies: `cd frontend && npm install`
+7. Install frontend dependencies: `npm install`
 8. Start the frontend: `npm run dev`
 
 ## Running Tests
@@ -18,7 +18,7 @@
 python manage.py test
 
 # Frontend tests
-cd frontend && npm test
+npm test
 
 # With coverage
 coverage run manage.py test && coverage report
