@@ -150,7 +150,7 @@ def calculate_portfolio_returns(
     portfolio_values = pd.Series(0.0, index=closes.index)
     for sym in symbols:
         if sym in closes.columns:
-            col = closes[sym].fillna(method="ffill")
+            col = closes[sym].ffill()
             portfolio_values += col * shares_map[sym]
 
     # Drop any leading zeros from symbols missing early data
