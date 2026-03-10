@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { Button } from '../Button';
+import Button from '../Button';
 
 describe('Button', () => {
   it('renders children text', () => {
@@ -18,7 +18,7 @@ describe('Button', () => {
   it('applies variant classes', () => {
     render(<Button variant="primary">Primary</Button>);
     const button = screen.getByText('Primary');
-    expect(button).toHaveClass('bg-accent');
+    expect(button.className).toContain('bg-gradient-to-r');
   });
 
   it('is disabled when disabled prop is true', () => {
@@ -28,6 +28,6 @@ describe('Button', () => {
 
   it('renders with custom className', () => {
     render(<Button className="custom-class">Styled</Button>);
-    expect(screen.getByText('Styled')).toHaveClass('custom-class');
+    expect(screen.getByText('Styled').className).toContain('custom-class');
   });
 });
