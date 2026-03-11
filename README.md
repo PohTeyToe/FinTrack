@@ -299,6 +299,16 @@ curl -X POST http://localhost:8000/api/watchlist/ \
 
 See live links at the top of this README.
 
+## Testing
+
+```bash
+# Frontend (47 tests)
+cd frontend && npm test
+
+# Backend (61 tests)
+cd backend && python manage.py test
+```
+
 ## Known Issues
 
 - Market data refresh is synchronous — large portfolios (50+ tickers) can timeout on the API call

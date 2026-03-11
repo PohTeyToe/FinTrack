@@ -3,6 +3,10 @@
 ## Development Setup
 
 1. Clone the repository
+   ```bash
+   git clone https://github.com/PohTeyToe/FinTrack.git
+   cd FinTrack
+   ```
 2. Copy `.env.example` to `.env` and configure database credentials
 3. Install backend dependencies: `pip install -r requirements.txt`
 4. Run migrations: `python manage.py migrate`
