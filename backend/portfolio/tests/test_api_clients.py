@@ -10,31 +10,36 @@ class TestGetQuote:
     def setup_method(self):
         _cache.clear()
 
-    def test_mock_fallback_aapl(self):
-        with patch("portfolio.api_clients.yf", side_effect=ImportError):
+    def test_returns_none_on_import_error(self):
+        with patch.dict("sys.modules", {"yfinance": None}):
+            _cache.clear()
             result = get_quote("AAPL")
-        assert result is not None
-        assert result["symbol"] == "AAPL"
-
-    def test_mock_fallback_unknown(self):
-        with patch("portfolio.api_clients.yf", side_effect=ImportError):
-            result = get_quote("ZZZZZ")
+        # When yfinance can't be imported, function catches the exception
+        # and returns None
         assert result is None
 
     def test_cache_hit(self):
-        _cache.clear()
-        get_quote("AAPL")
-        assert any("quote:AAPL" in k for k in _cache)
+        _cache["quote:AAPL"] = (
+            __import__("time").time(),
+            {"symbol": "AAPL", "price": 175.0},
+        )
+        result = get_quote("AAPL")
+        assert result is not None
+        assert result["symbol"] == "AAPL"
 
     def test_symbol_uppercased(self):
+        _cache["quote:AAPL"] = (
+            __import__("time").time(),
+            {"symbol": "AAPL", "price": 175.0},
+        )
         result = get_quote("aapl")
         assert result is not None
         assert result["symbol"] == "AAPL"
 
-    @patch("portfolio.api_clients.yf")
-    def test_yfinance_success(self, mock_yf):
+    def test_yfinance_success(self):
         import pandas as pd
 
+        mock_yf = MagicMock()
         mock_ticker = MagicMock()
         mock_yf.Ticker.return_value = mock_ticker
         mock_ticker.fast_info = MagicMock()
@@ -49,7 +54,8 @@ class TestGetQuote:
         mock_ticker.history.return_value = mock_hist
 
         _cache.clear()
-        result = get_quote("AAPL")
+        with patch.dict("sys.modules", {"yfinance": mock_yf}):
+            result = get_quote("AAPL")
         assert result is not None
         assert result["price"] == 175.0
 
@@ -58,18 +64,17 @@ class TestGetHistorical:
     def setup_method(self):
         _cache.clear()
 
-    def test_mock_fallback(self):
-        with patch("portfolio.api_clients.yf", side_effect=ImportError):
+    def test_returns_none_on_import_error(self):
+        with patch.dict("sys.modules", {"yfinance": None}):
+            _cache.clear()
             result = get_historical("AAPL", "1M")
-        assert result is not None
-        assert len(result) > 0
-
-    def test_unknown_symbol(self):
-        with patch("portfolio.api_clients.yf", side_effect=ImportError):
-            result = get_historical("ZZZZZ", "1M")
         assert result is None
 
     def test_cache_reuse(self):
-        _cache.clear()
-        get_historical("AAPL", "1M")
-        assert any("history:AAPL:1M" in k for k in _cache)
+        _cache["history:AAPL:1M"] = (
+            __import__("time").time(),
+            [{"date": "2025-01-01", "close": 175.0}],
+        )
+        result = get_historical("AAPL", "1M")
+        assert result is not None
+        assert len(result) == 1

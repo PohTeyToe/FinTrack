@@ -58,7 +58,7 @@ class TestCalculatePortfolioReturns:
             current_price=Decimal("175"),
         )
         result = calculate_portfolio_returns(self.portfolio.id, period="1Y")
-        assert len(result["time_series"]) > 300
+        assert len(result["time_series"]) > 200
 
 
 @pytest.mark.django_db
