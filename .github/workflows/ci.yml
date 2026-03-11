@@ -39,13 +39,11 @@ jobs:
 
       - name: Run tests
         env:
-          DB_HOST: localhost
-          DB_NAME: fintrack_test
-          DB_USER: fintrack
-          DB_PASSWORD: fintrack
+          DATABASE_URL: postgresql://fintrack:fintrack@localhost:5432/fintrack_test
           DJANGO_SECRET_KEY: ci-test-key
         run: |
           cd backend
+          python manage.py migrate --run-syncdb
           pytest -v
 
   frontend-test:
