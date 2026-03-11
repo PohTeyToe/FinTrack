@@ -43,7 +43,7 @@ jobs:
           DJANGO_SECRET_KEY: ci-test-key
         run: |
           cd backend
-          python manage.py migrate --run-syncdb
+          python manage.py migrate
           pytest -v
 
   frontend-test:
